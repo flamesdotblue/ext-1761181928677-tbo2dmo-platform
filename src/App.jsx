@@ -1,28 +1,37 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AuthGate from './components/AuthGate';
+import VaultDashboard from './components/VaultDashboard';
+import AddCardForm from './components/AddCardForm';
+import QRScanner from './components/QRScanner';
+import ProfilePage from './components/ProfilePage';
+import CardViewer from './components/CardViewer';
+import BottomNav from './components/BottomNav';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
+    <BrowserRouter>
+      <div className="min-h-screen bg-gradient-to-b from-[#0d0d0d] to-[#1a1a1a] text-white">
+        <AuthGate>
+          <header className="sticky top-0 z-10 bg-black/40 backdrop-blur-xl border-b border-slate-500/30">
+            <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+              <div className="text-sm text-slate-300">CARDVAULT</div>
+              <div className="text-[10px] text-slate-400">Futuristic • Silver • Minimal</div>
+            </div>
+          </header>
 
-export default App
+          <main className="max-w-md mx-auto">
+            <Routes>
+              <Route path="/" element={<VaultDashboard />} />
+              <Route path="/add" element={<AddCardForm />} />
+              <Route path="/scan" element={<QRScanner />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/card/:id" element={<CardViewer />} />
+            </Routes>
+          </main>
+
+          <BottomNav />
+        </AuthGate>
+      </div>
+    </BrowserRouter>
+  );
+}
